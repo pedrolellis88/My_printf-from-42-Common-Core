@@ -18,16 +18,27 @@ O uso de memória dinâmica está corretamente balanceado com chamadas a free, g
 Estrutura de Arquivos:
 
 -ft_printf.c:	Função principal ft_printf: percorre a string de formato, utiliza va_list, despacha para chr_check e acumula bytes escritos.
+
 -chr_check.c:	Analisa o caractere após % e direciona para o handler correspondente.
--digits.c:	Função auxiliar que calcula o número de dígitos (usada para base 16 em ft_put_hex).
+
+-digits.c: Função auxiliar que calcula o número de dígitos (usada para base 16 em ft_put_hex).
+
 -ft_putchar.c:	Escreve um único caractere via write; retorna 1 ou -1.
+
 -ft_putstr.c:	Escreve uma string; trata valores NULL imprimindo (null); retorna bytes escritos ou -1.
+
 -ft_putnbr.c:	Imprime inteiros com sinal (int); retorna bytes escritos ou -1.
+
 -ft_put_unsigned_nbr.c:	Imprime inteiros sem sinal (unsigned int); retorna bytes escritos ou -1.
+
 -ft_put_hex.c:	Converte valores unsigned int para hexadecimal e imprime; utiliza malloc e libera corretamente.
+
 -ft_put_void_pointer.c:	Imprime ponteiros no formato 0x...; trata ponteiros nulos como (nil) se desejado (unsigned int -> unsigned long).
+
 -lower_or_upper.c:	Verifica se o especificador é minúsculo ('x') ou maiúsculo ('X'); retorna 1, 2 ou 0.
+
 -ft_printf.h:	Arquivo de cabeçalho com protótipos e #includes.
+
 -Makefile: Define regras de compilação com os targets padrão: all, clean, fclean, re.
 
 Esse projeto serve tanto como exercício de domínio de funções variádicas e manipulação de strings em C, quanto como base sólida para submissões acadêmicas no currículo da 42.
