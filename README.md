@@ -1,90 +1,147 @@
+*This project has been created as part of the 42 curriculum by **pdiniz-l**.*
 
-Projeto ft_printf em C 
+## ft_printf
 
-Este projeto consiste na implementação de uma versão simplificada da função printf, denominada ft_printf, desenvolvida em linguagem C. A proposta segue a estrutura modular e estática comum nos repositórios da 42, com organização clara por responsabilidades (um ficheiro por função) e um Makefile que automatiza a compilação.
+### Description
 
-A função ft_printf implementa os especificadores mais utilizados: %c, %s, %d/%i, %u, %x, %X, %p e %%. Cada função auxiliar retorna a quantidade de bytes escritos com write ou -1 em caso de erro, permitindo que ft_printf acumule esse total e o retorne ao final da execução.
+The **ft_printf** project consists of implementing a simplified version of the standard C `printf` function.  
+The goal is to reproduce its core behavior while respecting the constraints, coding standards, and low-level requirements of the **42 curriculum**.
 
-Decisões de Projeto
+This project focuses on understanding **variadic functions**, **format parsing**, **integer and string formatting**, and **output using the `write` system call**, while ensuring proper error handling and memory safety.
 
-A estrutura original foi mantida, respeitando o uso de funções static, alocação dinâmica com malloc na conversão hexadecimal (ft_put_hex), e nomenclatura em snake_case.
+---
 
-Números assinados são convertidos para tipos sem sinal quando necessário (ex.: long → unsigned long) para correta exibição em hexadecimal.
+### Instructions
 
-Todos os auxiliares realizam checagem do retorno de write; em caso de erro, propagam o -1.
+#### Compilation
 
-O uso de memória dinâmica está corretamente balanceado com chamadas a free, garantindo ausência de vazamentos.
+The project is compiled using the provided `Makefile`.
 
-Estrutura de Arquivos:
+Available targets:
 
--ft_printf.c:	Função principal ft_printf: percorre a string de formato, utiliza va_list, despacha para chr_check e acumula bytes escritos.
+```bash
+make        # compile the library
+make clean  # remove object files
+make fclean # remove object files and the library
+make re     # recompile the project
+```
+This will generate the static library:
+```bash
+libftprintf.a
+```
+#### Usage
 
--chr_check.c:	Analisa o caractere após % e direciona para o handler correspondente.
+In `ft_printf.c` there is a comment with a main ready to test by using:
+```bash
+cc -Wall -Wextra -Werror ft_printf.c libftprintf.a
+```
+#### Supported Conversions
 
--digits.c: Função auxiliar que calcula o número de dígitos (usada para base 16 em ft_put_hex).
+The ft_printf function supports the following format specifiers:
 
--ft_putchar.c:	Escreve um único caractere via write; retorna 1 ou -1.
+* `%c` — character
 
--ft_putstr.c:	Escreve uma string; trata valores NULL imprimindo (null); retorna bytes escritos ou -1.
+* `%s` — string
 
--ft_putnbr.c:	Imprime inteiros com sinal (int); retorna bytes escritos ou -1.
+* `%d` / `%i` — signed decimal integer
 
--ft_put_unsigned_nbr.c:	Imprime inteiros sem sinal (unsigned int); retorna bytes escritos ou -1.
+* `%u` — unsigned decimal integer
 
--ft_put_hex.c:	Converte valores unsigned int para hexadecimal e imprime; utiliza malloc e libera corretamente.
+* `%x` — hexadecimal (lowercase)
 
--ft_put_void_pointer.c:	Imprime ponteiros no formato 0x...; trata ponteiros nulos como (nil) se desejado (unsigned int -> unsigned long).
+* `%X` — hexadecimal (uppercase)
 
--lower_or_upper.c:	Verifica se o especificador é minúsculo ('x') ou maiúsculo ('X'); retorna 1, 2 ou 0.
+* `%p` — pointer address
 
--ft_printf.h:	Arquivo de cabeçalho com protótipos e #includes.
+* `%%` — literal percent sign
 
--Makefile: Define regras de compilação com os targets padrão: all, clean, fclean, re.
+##### Each helper function returns:
 
-Esse projeto serve tanto como exercício de domínio de funções variádicas e manipulação de strings em C, quanto como base sólida para submissões acadêmicas no currículo da 42.
+* The number of bytes written on success
 
-English Version:
+* 1 in case of a write error
 
-ft_printf Project in C
+The main ft_printf function accumulates these values and returns the total number of bytes printed, matching the behavior of the standard printf.
 
-This project consists of implementing a simplified version of the printf function, named ft_printf, developed in the C programming language. The structure follows the modular and static organization commonly used in 42 school repositories, with clearly defined responsibilities (one file per function) and a Makefile to automate compilation.
+#### Algorithm and Data Structure Choices
+##### Format Parsing
 
-The ft_printf function supports the most commonly used format specifiers: %c, %s, %d/%i, %u, %x, %X, %p, and %%. Each helper function returns the number of bytes written using write, or -1 in case of an error, allowing ft_printf to accumulate the total and return it upon completion.
+The format string is processed character by character.
 
-Design Decisions
+When a % is encountered, the following character is analyzed to determine the appropriate conversion.
 
-The original structure was preserved, including the use of static functions, dynamic memory allocation with malloc in the hexadecimal conversion (ft_put_hex), and naming conventions in snake_case.
+A dispatcher function (chr_check) routes execution to the correct handler based on the specifier.
 
-Signed numbers are converted to unsigned types when necessary (e.g., long → unsigned long) to ensure correct hexadecimal output.
+##### Variadic Arguments
 
-All helper functions check the return value of write and propagate -1 in case of error.
+The project uses va_list, va_start, va_arg, and va_end to retrieve arguments dynamically according to the detected format specifier.
 
-Dynamic memory usage is properly managed with corresponding free calls, ensuring no memory leaks.
+##### Integer and Hexadecimal Conversion
 
-File Structure
+Signed integers are printed using recursive or iterative digit extraction.
 
--ft_printf.c: Main function ft_printf: iterates through the format string, uses va_list, dispatches to chr_check, and accumulates bytes written.
+Unsigned values are used for `%u`, `%x`, `%X`, and `%p`.
 
--chr_check.c: Analyzes the character after % and dispatches to the appropriate handler.
+For hexadecimal output, values are converted using base-16 logic.
 
--digits.c: Helper function that calculates the number of digits (used for base 16 in ft_put_hex).
+Signed values are cast to unsigned types when required (e.g. long → unsigned long) to ensure correct representation.
 
--ft_putchar.c: Writes a single character using write; returns 1 or -1.
+#### Memory Management
 
--ft_putstr.c: Writes a string; handles NULL values by printing (null); returns bytes written or -1.
+* Dynamic memory allocation is used only when necessary (hexadecimal conversion).
 
--ft_putnbr.c: Prints signed integers (int); returns bytes written or -1.
+* Every malloc call has a corresponding free.
 
--ft_put_unsigned_nbr.c: Prints unsigned integers (unsigned int); returns bytes written or -1.
+* No memory leaks are introduced.
 
--ft_put_hex.c: Converts unsigned int values to hexadecimal and prints them; uses malloc and frees memory properly.
+#### Error Propagation
 
--ft_put_void_pointer.c: Prints pointers in 0x... format; handles null pointers as (nil) if desired (unsigned int → unsigned long).
+Every helper function checks the return value of write.
 
--lower_or_upper.c: Checks whether the specifier is lowercase ('x') or uppercase ('X'); returns 1, 2, or 0.
+In case of error, -1 is immediately propagated up to ft_printf.
 
--ft_printf.h: Header file containing prototypes and #includes.
+This design ensures correctness, simplicity, and robustness while staying within project constraints.
 
--Makefile: Defines compilation rules with standard targets: all, clean, fclean, re.
+#### File Structure
 
-This project serves both as an exercise in mastering variadic functions and string manipulation in C, and as a solid foundation for academic submissions within the 42 school curriculum.
+`ft_printf.c` - Main function that parses the format string, manages va_list, dispatches specifiers, and accumulates output size.
+
+`chr_check.c` - Identifies the conversion specifier and calls the corresponding handler.
+
+`digits.c` -  Computes the number of digits required for numerical conversions (used for hexadecimal output).
+
+`ft_putchar.c` - Writes a single character using write.
+
+`ft_putstr.c` - Writes a string, handling NULL values by printing (null).
+
+`ft_putnbr.c` -  Prints signed integers.
+
+`ft_put_unsigned_nbr.c` - Prints unsigned integers.
+
+`ft_put_hex.c` - Converts and prints hexadecimal values using dynamic memory allocation.
+
+`ft_put_void_pointer.c` - Prints pointer addresses in 0x... format.
+
+`lower_or_upper.c` - Determines whether hexadecimal output should be lowercase or uppercase.
+
+`ft_printf.h` - Header file containing prototypes and required includes.
+
+`Makefile` - Compilation rules and standard targets.
+
+### Resources
+
+42 School — ft_printf subject
+
+POSIX documentation:
+
+* write(2)
+
+* stdarg(3)
+
+Manual pages:
+
+* man printf
+
+* man stdarg
+
+* C standard library documentation
