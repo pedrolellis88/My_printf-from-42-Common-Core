@@ -1,11 +1,11 @@
-*Este projeto foi criado como parte do currículo da 42 por **pdiniz-l**.*
+*Este projeto foi criado por **Pedro Henrique Dinis Lellis**
 
 ## ft_printf
 
 ### Descrição
 
 O projeto **ft_printf** consiste na implementação de uma versão simplificada da função padrão `printf` da linguagem C.  
-O objetivo é reproduzir seu comportamento principal, respeitando as restrições, os padrões de codificação e os requisitos de baixo nível do **currículo da 42**.
+O objetivo é reproduzir seu comportamento principal, respeitando as restrições e os padrões de codificação.
 
 Este projeto foca na compreensão de **funções variádicas**, **parsing de formato**, **formatação de inteiros e strings** e **saída utilizando a chamada de sistema `write`**, garantindo ao mesmo tempo o tratamento correto de erros e a segurança de memória.
 
@@ -130,8 +130,6 @@ Esse design garante correção, simplicidade e robustez, mantendo-se dentro das 
 
 ### Recursos
 
-42 School — enunciado do ft_printf
-
 #### Documentação POSIX:
 
 * write(2)
@@ -148,14 +146,14 @@ Esse design garante correção, simplicidade e robustez, mantendo-se dentro das 
 
 # English Version 
 
-*This project has been created as part of the 42 curriculum by **pdiniz-l**.*
+*This project has been created by **Pedro Henrique Dinis Lellis**
 
 ## ft_printf
 
 ### Description
 
 The **ft_printf** project consists of implementing a simplified version of the standard C `printf` function.  
-The goal is to reproduce its core behavior while respecting the constraints, coding standards, and low-level requirements of the **42 curriculum**.
+The goal is to reproduce its core behavior while respecting the constraints and coding standards.
 
 This project focuses on understanding **variadic functions**, **format parsing**, **integer and string formatting**, and **output using the `write` system call**, while ensuring proper error handling and memory safety.
 
@@ -279,8 +277,6 @@ This design ensures correctness, simplicity, and robustness while staying within
 `Makefile` - Compilation rules and standard targets.
 
 ### Resources
-
-42 School — ft_printf subject
 
 #### POSIX documentation:
 
